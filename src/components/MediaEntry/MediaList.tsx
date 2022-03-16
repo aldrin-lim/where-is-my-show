@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box } from "@mui/system";
-import { Media } from "../../models/media";
+import { MediaResponse } from "../../models/media";
 import MediaItem from "../MediaItem";
+import { Link } from 'react-router-dom';
 
 type MediaListProps = {
-  entries: Media[]
+  entries: MediaResponse[]
 }
 
 const MediaList: React.FC<MediaListProps> = ({ entries }) => {
@@ -16,7 +17,9 @@ const MediaList: React.FC<MediaListProps> = ({ entries }) => {
           const dateFormatted = date ? new Date(date).toLocaleDateString() : ''
           const title = media.title || media.name || media.original_title || media.original_name || ''
           return (
-            <MediaItem thumbnail={media.poster_path} title={title} date={dateFormatted}  />
+            <Link to={{ state: { mediaType: media.media_type }, pathname: `/media/${media.id}` }}>
+              <MediaItem thumbnail={media.poster_path} title={title} date={dateFormatted}  />
+            </Link>
           )
         })
       }

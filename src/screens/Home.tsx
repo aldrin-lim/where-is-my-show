@@ -1,18 +1,24 @@
 import { useQuery } from "react-query";
 import MediaEntry from "../components/MediaEntry/MediaEntry";
 import { getTopMovies, getTopTVShows } from "../http/api";
-import { Media } from "../models/media";
+import { MediaResponse } from "../models/media";
 
 import "../style/style.css";
 
 const Home = () => {
-  const topMoviesQuery = useQuery<{ results: Media[] }>(
+  const topMoviesQuery = useQuery<{ results: MediaResponse[] }>(
     ["topMovies"],
-    getTopMovies
+    getTopMovies,
+    {
+      staleTime: 300000, // set the caching up to 5 minutes
+    }
   );
-  const topTvShowsQuery = useQuery<{ results: Media[] }>(
+  const topTvShowsQuery = useQuery<{ results: MediaResponse[] }>(
     ["topTvShows"],
-    getTopTVShows
+    getTopTVShows,
+    {
+      staleTime: 300000, // set the caching up to 5 minutes
+    }
   );
 
   return (

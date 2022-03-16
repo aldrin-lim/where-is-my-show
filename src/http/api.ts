@@ -27,3 +27,21 @@ export const getTopTVShows = () => {
     }
   ).then((res) => res.json());
 }
+
+export const getMovieDetail = (tmdbId: number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${tmdbApiKey.key}&language=en-US`,
+    {
+      method: "GET",
+    }
+  ).then((res) => res.json());
+}
+
+export const getMovieProvider =  (tmdbId: number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${tmdbId}/watch/providers?api_key=${tmdbApiKey.key}`,
+    {
+      method: "GET",
+    }
+  ).then((res) => res.json());
+}

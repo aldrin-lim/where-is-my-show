@@ -8,13 +8,13 @@ import {
   Switch,
   Theme,
 } from "@mui/material";
-import { Media } from "../../models/media";
+import { MediaResponse } from "../../models/media";
 import Skeleton from "react-loading-skeleton";
 
 type MediaEntryProps = {
   label: string;
   isLoading: boolean;
-  entries?: Media[];
+  entries?: MediaResponse[];
   error: any;
 };
 

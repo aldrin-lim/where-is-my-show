@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import Star from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
 import colors from "../style/color";
+import getMediaPoster from '../util/getMediaPoster';
 
 export type MediaItemProps = {
   title: string;
@@ -31,7 +32,7 @@ const MediaItem:React.FC<MediaItemProps> = ({ title, thumbnail, date }) => {
   const styles = useStyles();
   return (
     <Box className={styles.root}>
-      <img className={styles.thumbnail} src={`https://image.tmdb.org/t/p/original${thumbnail}` || 'https://dummyimage.com/200x300/aaa/444444.jpg&text=N/A'} alt="movie poster" />
+      <img className={styles.thumbnail} src={getMediaPoster(thumbnail)} alt="movie poster" />
       <Box
         display="flex"
         flexDirection="row"

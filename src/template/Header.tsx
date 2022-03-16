@@ -10,7 +10,7 @@ const pages = ["TV Shows", "Movies", "Shows available for you"];
 
 const ResponsiveAppBar = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box >
       <AppBar position="static">
         <Container maxWidth="lg">
           <Toolbar>

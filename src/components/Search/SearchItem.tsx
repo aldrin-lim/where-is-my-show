@@ -2,21 +2,18 @@ import { Box } from "@mui/system";
 import Star from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
+import getMediaPoster from "../../util/getMediaPoster";
+import { Media } from "../../models/media";
 
-
-export type SearchItemProps = {
-  title: string;
-  thumbnail: string;
-  date?: string;
-}
+type SearchItemProps = Pick<Media, "title" | "thumbnail" | "date">;
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    width: '100%',
-    gap: theme.spacing(2)
+    width: "100%",
+    gap: theme.spacing(2),
   },
   title: {
     margin: 0,
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   thumbnail: {
     width: 45,
-    backgroundColor: '#aaa'
+    backgroundColor: "#aaa",
   },
 }));
 
@@ -36,20 +33,16 @@ const SearchItem: React.FC<SearchItemProps> = ({ title, thumbnail, date }) => {
     <Box className={styles.root}>
       <img
         className={styles.thumbnail}
-        src={`https://image.tmdb.org/t/p/original${thumbnail}` || 'https://dummyimage.com/200x300/aaa/444444.jpg&text=N/A'}
+        src={getMediaPoster(thumbnail)}
         alt=""
       />
       <Box>
         <Box>
-          <h4 className={styles.title}>{title }</h4>
+          <h4 className={styles.title}>{title}</h4>
           <h5 className={styles.date}>{date}</h5>
         </Box>
 
-        <Box
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-        >
+        <Box display="flex" flexDirection="row" alignItems="center">
           5
           <Star htmlColor="#111" />
         </Box>

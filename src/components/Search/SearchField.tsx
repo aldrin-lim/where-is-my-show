@@ -5,8 +5,9 @@ import _debounce from "lodash/debounce";
 import SearchSuggestion from "./SearchSuggestion";
 import { useQuery } from "react-query";
 import { searchMedia } from "../../http/api";
-import { Media } from "../../models/media";
+import { MediaResponse } from "../../models/media";
 import { useState } from "react";
+import buildMediaData from "../../util/buildMediaData";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,14 +31,17 @@ const SearchField = () => {
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const { data, isLoading, } = useQuery<{ results: Media[] }>(
+  const { data, isLoading } = useQuery<{ results: MediaResponse[] }>(
     ["media", searchText],
-    () => searchMedia(searchText)
+    () => searchMedia(searchText),
+    {
+      enabled: !!searchText
+    }
   );
 
+  // Prevent consecutive firing of api call
   const onSearch = (event: any) => {
     const value = event.target.value;
-    
     if (value) {
       _debounce(() => {
         setShowIcon(true);
@@ -53,26 +57,6 @@ const SearchField = () => {
     }
   };
 
-  const onBlur = () => {
-    setShowIcon(false);
-    setShowSuggestion(false);
-  };
-
-  const buildMediaData = (mediaData: Media[]) => {
-   
-    return mediaData.map((media) => {
-      const date = media.first_air_date || media.release_date
-      const title = media.title || media.name || media.original_title || media.original_name || ''
-      return {
-        title: title,
-        thumbnail: media.poster_path,
-        date: date
-          ? new Date(date).toLocaleDateString()
-          : ""
-      }
-    }).slice(0,5);
-  };
-
   return (
     <>
       <Box className={`search__container ${styles.root}`}>
@@ -80,7 +64,6 @@ const SearchField = () => {
         <Box className={styles.search}>
           <input
             onChange={onSearch}
-            onBlur={onBlur}
             className="search__input"
             type="text"
             placeholder="breaking bad, The office, westworld, etc ..."
@@ -95,7 +78,11 @@ const SearchField = () => {
         data.results &&
         data.results.length > 0 &&
         showSuggestion && (
-          <SearchSuggestion items={buildMediaData(data.results)} />
+          <SearchSuggestion
+            items={data.results
+              .slice(0, 5)
+              .map((media) => buildMediaData(media))}
+          />
         )}
     </>
   );
