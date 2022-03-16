@@ -1,9 +1,14 @@
-
+import React from 'react';
 import { Box } from "@mui/system";
 import Star from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
 import colors from "../style/color";
 
+export type MediaItemProps = {
+  title: string;
+  thumbnail: string;
+  date?: string;
+}
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -14,15 +19,19 @@ const useStyles = makeStyles(() => ({
   },
   date: {
     margin: 0,
+  },
+  thumbnail: {
+    width: 200,
+    height: 300,
   }
 }));
 
 
-const MediaItem = () => {
+const MediaItem:React.FC<MediaItemProps> = ({ title, thumbnail, date }) => {
   const styles = useStyles();
   return (
     <Box className={styles.root}>
-      <img src="https://picsum.photos/200/300" alt="movie poster" />
+      <img className={styles.thumbnail} src={`https://image.tmdb.org/t/p/original${thumbnail}` || 'https://dummyimage.com/200x300/aaa/444444.jpg&text=N/A'} alt="movie poster" />
       <Box
         display="flex"
         flexDirection="row"
@@ -30,8 +39,8 @@ const MediaItem = () => {
         alignItems="center"
       >
         <Box mt={2}>
-          <h4 className={styles.title}>Title</h4>
-          <h5 className={styles.date}>Oct 3, 2015</h5>
+          <h4 className={styles.title}>{ title }</h4>
+          <h5 className={styles.date}>{ date }</h5>
         </Box>
 
         <Box

@@ -1,8 +1,14 @@
 import { Box } from "@mui/system";
 import Star from "@mui/icons-material/Star";
 import { makeStyles } from "@mui/styles";
-import colors from "../../style/color";
 import { Theme } from "@mui/material";
+
+
+export type SearchItemProps = {
+  title: string;
+  thumbnail: string;
+  date?: string;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,22 +26,23 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   thumbnail: {
     width: 45,
+    backgroundColor: '#aaa'
   },
 }));
 
-const SearchItem = () => {
+const SearchItem: React.FC<SearchItemProps> = ({ title, thumbnail, date }) => {
   const styles = useStyles();
   return (
     <Box className={styles.root}>
       <img
         className={styles.thumbnail}
-        src="https://picsum.photos/200/300"
-        alt="movie poster"
+        src={`https://image.tmdb.org/t/p/original${thumbnail}` || 'https://dummyimage.com/200x300/aaa/444444.jpg&text=N/A'}
+        alt=""
       />
       <Box>
         <Box>
-          <h4 className={styles.title}>Title</h4>
-          <h5 className={styles.date}>Oct 3, 2015</h5>
+          <h4 className={styles.title}>{title }</h4>
+          <h5 className={styles.date}>{date}</h5>
         </Box>
 
         <Box

@@ -1,9 +1,12 @@
 import { Box } from "@mui/system";
 import { makeStyles } from "@mui/styles";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
 import _debounce from "lodash/debounce";
 import SearchSuggestion from "./SearchSuggestion";
+import { useQuery } from "react-query";
+import { searchMedia } from "../../http/api";
+import { Media } from "../../models/media";
+import { useState } from "react";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -27,18 +30,24 @@ const SearchField = () => {
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [searchText, setSearchText] = useState("");
 
+  const { data, isLoading, } = useQuery<{ results: Media[] }>(
+    ["media", searchText],
+    () => searchMedia(searchText)
+  );
+
   const onSearch = (event: any) => {
     const value = event.target.value;
-    setSearchText(value);
+    
     if (value) {
       _debounce(() => {
         setShowIcon(true);
         _debounce(() => {
+          setSearchText(value);
           setShowSuggestion(true);
           setShowIcon(false);
         }, 500)();
       }, 500)();
-    } else if (value === ''){
+    } else if (value === "") {
       setShowSuggestion(false);
       setShowIcon(false);
     }
@@ -47,6 +56,21 @@ const SearchField = () => {
   const onBlur = () => {
     setShowIcon(false);
     setShowSuggestion(false);
+  };
+
+  const buildMediaData = (mediaData: Media[]) => {
+   
+    return mediaData.map((media) => {
+      const date = media.first_air_date || media.release_date
+      const title = media.title || media.name || media.original_title || media.original_name || ''
+      return {
+        title: title,
+        thumbnail: media.poster_path,
+        date: date
+          ? new Date(date).toLocaleDateString()
+          : ""
+      }
+    }).slice(0,5);
   };
 
   return (
@@ -66,7 +90,13 @@ const SearchField = () => {
           )}
         </Box>
       </Box>
-      {showSuggestion && <SearchSuggestion />}
+      {!isLoading &&
+        data &&
+        data.results &&
+        data.results.length > 0 &&
+        showSuggestion && (
+          <SearchSuggestion items={buildMediaData(data.results)} />
+        )}
     </>
   );
 };

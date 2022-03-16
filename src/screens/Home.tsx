@@ -1,16 +1,34 @@
-import SearchBox from "../components/Search/SearchBox";
-import Header from "../template/Header";
+import { useQuery } from "react-query";
 import MediaEntry from "../components/MediaEntry/MediaEntry";
+import { getTopMovies, getTopTVShows } from "../http/api";
+import { Media } from "../models/media";
 
 import "../style/style.css";
-import { Container } from "@mui/material";
-import Footer from "../template/Footer";
 
 const Home = () => {
+  const topMoviesQuery = useQuery<{ results: Media[] }>(
+    ["topMovies"],
+    getTopMovies
+  );
+  const topTvShowsQuery = useQuery<{ results: Media[] }>(
+    ["topTvShows"],
+    getTopTVShows
+  );
+
   return (
     <>
-      <MediaEntry label="Top Movies" />
-      <MediaEntry label="Top TV Shows" />
+      <MediaEntry
+        isLoading={topMoviesQuery.isLoading}
+        entries={topMoviesQuery.data?.results}
+        error={topMoviesQuery.error}
+        label="Top Movies"
+      />
+      <MediaEntry
+        isLoading={topTvShowsQuery.isLoading}
+        entries={topTvShowsQuery.data?.results}
+        error={topTvShowsQuery.error}
+        label="Top TV Shows"
+      />
     </>
   );
 };
