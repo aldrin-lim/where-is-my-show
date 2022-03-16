@@ -1,7 +1,8 @@
 
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import styled from 'styled-components';
 import SearchField from './SearchField';
+import SearchSuggestion from './SearchSuggestion';
 
 const GradientBox  = styled.div`
   background: #2980B9;  /* fallback for old browsers */
@@ -24,7 +25,9 @@ const SearchBox = () => {
     <GradientBox>
       <Container maxWidth="lg">
         <SearchFieldBox>
-          <SearchField />
+          <Box position="relative">
+            <SearchField />
+          </Box>
         </SearchFieldBox>
       </Container>
     </GradientBox>

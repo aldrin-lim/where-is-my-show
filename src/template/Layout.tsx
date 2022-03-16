@@ -2,7 +2,7 @@ import React from "react";
 import Header from './Header';
 import { Container } from "@mui/material";
 import Footer from "./Footer";
-import SearchBox from "../components/SearchBox";
+import SearchBox from "../components/Search/SearchBox";
 
 const Layout: React.FC = ({ children }) => {
   return (

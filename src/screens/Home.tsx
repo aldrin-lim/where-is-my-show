@@ -1,4 +1,4 @@
-import SearchBox from "../components/SearchBox";
+import SearchBox from "../components/Search/SearchBox";
 import Header from "../template/Header";
 import MediaEntry from "../components/MediaEntry/MediaEntry";
 

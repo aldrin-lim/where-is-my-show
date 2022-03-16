@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const label = { inputProps: { 'aria-label': 'Available for you' } };
-
 const MediaEntry: React.FC<MediaEntryProps> = ({ label }) => {
   const styles = useStyles();
 
