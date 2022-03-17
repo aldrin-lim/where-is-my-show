@@ -5,12 +5,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Logo from "../assets/where is my show-logos_transparent.png";
+import { Link } from "react-router-dom";
 
 const pages = ["TV Shows", "Movies", "Shows available for you"];
 
-const ResponsiveAppBar = () => {
+type ResponsiveAppBarProps = {
+  toggleDrawer: () => void
+}
+
+const ResponsiveAppBar:React.FC<ResponsiveAppBarProps> = ({ toggleDrawer }) => {
   return (
-    <Box >
+    <Box>
       <AppBar position="static">
         <Container maxWidth="lg">
           <Toolbar>
@@ -21,7 +26,7 @@ const ResponsiveAppBar = () => {
             >
               <img src={Logo} height="30" alt="logo" />
             </Typography>
-           
+
             {pages.map((page) => (
               <Button
                 key={page}
@@ -30,6 +35,10 @@ const ResponsiveAppBar = () => {
                 {page}
               </Button>
             ))}
+
+            <Button sx={{ my: 2, color: "white", display: "block" }} onClick={() => toggleDrawer()}>
+              Sign In
+            </Button>
           </Toolbar>
         </Container>
       </AppBar>

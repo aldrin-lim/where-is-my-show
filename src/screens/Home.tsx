@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import MediaEntry from "../components/MediaEntry/MediaEntry";
-import { getTopMovies, getTopTVShows } from "../http/api";
+import { getTopMovies, getTopTVShows, signIn } from "../http/api";
 import { MediaResponse } from "../models/media";
 
 import "../style/style.css";
